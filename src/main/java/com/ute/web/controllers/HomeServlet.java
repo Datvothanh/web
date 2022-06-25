@@ -24,6 +24,7 @@ public class HomeServlet extends HttpServlet {
         ServletUtils.forward("/views/vwHome/About.jsp", request, response);
         break;
       default:
+        ServletUtils.forward("/views/404.jsp", request, response);
         break;
     }
   }
