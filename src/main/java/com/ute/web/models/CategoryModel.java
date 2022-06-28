@@ -15,4 +15,15 @@ public class CategoryModel {
                     .executeAndFetch(Category.class);
         }
     }
-}
+
+    public static void add(Category c) {
+        Sql2o sql2o = new Sql2o("jdbc:mysql://localhost:3306/abc", "root", "");
+        String insertSql ="INSERT INTO categories (CatName) VALUES (:catname)";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(insertSql)
+                    .addParameter("catname", c.getCatName())
+                    .executeUpdate();
+        }
+    }
+
+    }

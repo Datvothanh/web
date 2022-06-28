@@ -6,8 +6,13 @@
 <t:main>
     <jsp:body>
         <div class="card">
-            <h4 class="card-header">
+            <h4 class="card-header d-flex justify-content-between">
                 Categories
+                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Category/Add"
+                   role="button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Add Category
+                </a>
             </h4>
             <c:choose>
                 <c:when test="${categories.size() == 0}">
@@ -15,32 +20,32 @@
                         <p class="card-text">Không có dữ liệu.</p>
                     </div>
                 </c:when>
-            </c:choose>
-            <c:otherwise>
-                <div class="card-body">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${categories}" var="c">
+                <c:otherwise>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <thead>
                             <tr>
-                                <th scope="row">${c.catID}</th>
-                                <td>${c.catName}</td>
-                                <td class="text-right">
-                                    <a class="btn btn-outline-primary" href="#" role="button">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">&nbsp;</th>
                             </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </c:otherwise>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${categories}" var="c">
+                                <tr>
+                                    <th scope="row">${c.catID}</th>
+                                    <td>${c.catName}</td>
+                                    <td class="text-right">
+                                        <a class="btn btn-outline-primary" href="#" role="button">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
     </jsp:body>
 </t:main>

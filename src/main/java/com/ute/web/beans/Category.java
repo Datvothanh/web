@@ -12,6 +12,11 @@ public class Category {
         this.CatName = catName;
     }
 
+    public Category(String catName) {
+        this.CatID = -1;
+        this.CatName = catName;
+    }
+
     public int getCatID() {
         return CatID;
     }

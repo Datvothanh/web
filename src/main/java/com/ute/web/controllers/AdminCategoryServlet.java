@@ -25,6 +25,9 @@ public class AdminCategoryServlet extends HttpServlet {
                 request.setAttribute("categories", list);
                 ServletUtils.forward("/views/vwCategory/Index.jsp", request, response);
                 break;
+            case "/Add":
+                ServletUtils.forward("/views/vwCategory/Add.jsp", request, response);
+                break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);
                 break;
@@ -33,6 +36,17 @@ public class AdminCategoryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String path = request.getPathInfo();
+        switch (path) {
+            case "/Add":
+                String name = request.getParameter("CatName");
+                Category c = new Category(name);
+                CategoryModel.add(c);
+                ServletUtils.forward("/views/vwCategory/Index.jsp", request, response);
+                break;
+            default:
+                ServletUtils.forward("/views/404.jsp", request, response);
+                break;
+        }
     }
 }
