@@ -16,6 +16,7 @@ public class ProductModel {
         }
     }
 
+    //Admin
     public static void add(Product p) {
         String Sql = "INSERT INTO products ( ProName, Price, CatID, Quantity, TinyDes, FullDes) VALUES (:ProName,:Price,:CatID,:Quantity,:TinyDes,:FullDes)";
         try (Connection con = DbUtils.getConnection()) {
@@ -67,5 +68,17 @@ public class ProductModel {
                     .executeUpdate();
         }
     }
+
+    //End
+    //User
+    public static List<Product> findByCatID(int catId) {
+        final String query = "select * from products where CatID =:CatID";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("CatID", catId)
+                    .executeAndFetch(Product.class);
+        }
+    }
+    //End
 
 }

@@ -15,6 +15,7 @@ public class CategoryModel {
         }
     }
 
+    //Admin
     public static void add(Category c) {
         String Sql = "INSERT INTO categories (CatName) VALUES (:CatName)";
         try (Connection con = DbUtils.getConnection()) {
@@ -55,5 +56,5 @@ public class CategoryModel {
                     .executeUpdate();
         }
     }
-
+    //End
 }

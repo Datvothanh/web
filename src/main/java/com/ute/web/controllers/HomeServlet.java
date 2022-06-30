@@ -1,11 +1,16 @@
 package com.ute.web.controllers;
 
+
+
+
+import com.ute.web.beans.Category;
 import com.ute.web.utils.ServletUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "HomeServlet", value = "/Home/*")
 public class HomeServlet extends HttpServlet {
