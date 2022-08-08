@@ -23,5 +23,10 @@
         <url-pattern>/Account/Profile</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>OtpFilter</filter-name>
+        <url-pattern>/Account/Otp</url-pattern>
+    </filter-mapping>
+
 
 </web-app>

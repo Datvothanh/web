@@ -3,7 +3,8 @@
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.ute.web.beans.Category>"/>
 <div class="card">
   <h4 class="card-header">
-    Categories
+    <i class="bi bi-list"></i>
+    Danh mục sản phẩm
   </h4>
   <div class="list-group list-group-flush">
     <c:forEach items="${categoriesWithDetails}" var="c">

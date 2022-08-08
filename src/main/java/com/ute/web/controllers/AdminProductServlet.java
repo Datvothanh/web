@@ -1,8 +1,5 @@
 package com.ute.web.controllers;
-
-import com.ute.web.beans.Category;
 import com.ute.web.beans.Product;
-import com.ute.web.models.CategoryModel;
 import com.ute.web.models.ProductModel;
 import com.ute.web.utils.ServletUtils;
 
@@ -52,7 +49,7 @@ public class AdminProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         String path = request.getPathInfo();
         switch (path) {
             case "/Add":

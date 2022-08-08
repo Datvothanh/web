@@ -15,6 +15,9 @@ public class ProductFEServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = request.getPathInfo();
+        if (path == null || path.equals("/")) {
+            path = "/404";
+        }
         switch (path) {
             case "/ByCat":
                 int catId = Integer.parseInt(request.getParameter("id"));

@@ -1,16 +1,19 @@
 package com.ute.web.filters;
 
-import com.ute.web.beans.User;
+
+import com.ute.web.utils.ServletUtils;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-@WebFilter(filterName = "SessionInitFilter" )
-public class SessionInitFilter implements Filter {
-    public void init(FilterConfig config) throws ServletException {
+@WebFilter(filterName = "OtpFilter")
+public class OtpFilter implements Filter {
+    public void init(FilterConfig config) {
     }
 
     public void destroy() {
@@ -20,10 +23,11 @@ public class SessionInitFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = request.getSession();
-        if(session.getAttribute("auth")==null){
-            session.setAttribute("auth" , false);
-            session.setAttribute("otp" , false);
-            session.setAttribute("authUser" , new User());
+        boolean otp = (boolean) session.getAttribute("otp");
+        if(!otp){
+            session.setAttribute("retUrl" , request.getRequestURI());
+            ServletUtils.redirect("/Home" , request , (HttpServletResponse) res);
+            return;
         }
         chain.doFilter(req, res);
     }

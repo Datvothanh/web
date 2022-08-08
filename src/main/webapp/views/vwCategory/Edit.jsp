@@ -24,14 +24,15 @@
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         List
                     </a>
-                    <button type="submit" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/Category/Delete">
-                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        Delete
-                    </button>
                     <button type="submit" class="btn btn-primary" formaction="${pageContext.request.contextPath}/Admin/Category/Update">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Save
                     </button>
+                    <button type="submit" class="btn btn-danger" formaction="${pageContext.request.contextPath}/Admin/Category/Delete">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        Delete
+                    </button>
+
                 </div>
             </div>
         </form>

@@ -3,16 +3,22 @@ package com.ute.web.beans;
 import java.time.LocalDate;
 
 public class User {
-    private int id , permission;
+    //0:Admin
+    //1:Ban
+    //2:mua
+    //3:khach
+    //4:khach can xac nhan
+    private int id , permission , code;
     private String username , password , name , email;
     private LocalDate dob;
 
     public User() {
     }
 
-    public User(int id, int permission, String username, String password, String name, String email, LocalDate dob) {
+    public User(int id, int permission, int code, String username, String password, String name, String email, LocalDate dob) {
         this.id = id;
         this.permission = permission;
+        this.code = code;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -20,9 +26,10 @@ public class User {
         this.dob = dob;
     }
 
-    public User(int permission, String username, String password, String name, String email, LocalDate dob) {
+    public User(int permission, int code ,String username, String password, String name, String email, LocalDate dob) {
         this.id = -1;
         this.permission = permission;
+        this.code = code;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -32,6 +39,10 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public int getPermission() {
