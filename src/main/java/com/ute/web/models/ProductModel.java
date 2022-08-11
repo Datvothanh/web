@@ -81,4 +81,12 @@ public class ProductModel {
     }
     //End
 
+    public static List<Product> findTop5HighestPrice () {
+        final String query = "SELECT * FROM products order by Price desc limit 5";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .executeAndFetch(Product.class);
+        }
+    }
+
 }

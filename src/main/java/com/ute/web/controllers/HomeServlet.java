@@ -3,7 +3,8 @@ package com.ute.web.controllers;
 
 
 
-import com.ute.web.beans.Category;
+import com.ute.web.beans.Product;
+import com.ute.web.models.ProductModel;
 import com.ute.web.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -23,6 +24,8 @@ public class HomeServlet extends HttpServlet {
 
         switch (path) {
             case "/Index":
+                List<Product> listTop5HighestPrice = ProductModel.findTop5HighestPrice();
+                request.setAttribute("listTop5HighestPrice", listTop5HighestPrice);
                 ServletUtils.forward("/views/vwHome/Index.jsp", request, response);
                 break;
             case "/About":

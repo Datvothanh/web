@@ -36,14 +36,22 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Product/" role="button">
+                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Product/"
+                       role="button">
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         List
                     </a>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                        Save
-                    </button>
+                    <c:choose>
+                        <c:when test="">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                                Save
+                            </button>
+                        </c:when>
+                        <c:otherwise>
+
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </form>
