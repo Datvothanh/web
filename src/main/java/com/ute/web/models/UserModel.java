@@ -1,5 +1,6 @@
 package com.ute.web.models;
 
+import com.ute.web.beans.Favourite;
 import com.ute.web.beans.Product;
 import com.ute.web.beans.User;
 import com.ute.web.utils.DbUtils;
@@ -9,6 +10,15 @@ import java.util.List;
 
 
 public class UserModel {
+
+    public static List<User> findAll() {
+        final String query = "select * from users";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .executeAndFetch(User.class);
+        }
+    }
+
     public static void add(User u) {
         String Sql = "INSERT INTO users (username, password, name, email, dob, permission , code) VALUES (:username,:password,:name,:email,:dob,:permission,:code)";
         try (Connection con = DbUtils.getConnection()) {

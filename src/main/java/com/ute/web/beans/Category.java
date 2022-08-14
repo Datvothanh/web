@@ -1,20 +1,26 @@
 package com.ute.web.beans;
 
 public class Category {
-    private int CatID;
+    private int CatID , GrCatID;
     private String CatName;
 
     public Category() {
     }
 
-    public Category(int catID, String catName) {
-        this.CatID = catID;
-        this.CatName = catName;
+    public Category(int catID, int grCatID, String catName) {
+        CatID = catID;
+        GrCatID = grCatID;
+        CatName = catName;
     }
 
-    public Category(String catName) {
-        this.CatID = -1;
-        this.CatName = catName;
+    public Category(int grCatID, String catName) {
+        CatID = -1;
+        GrCatID = grCatID;
+        CatName = catName;
+    }
+
+    public int getGrCatID() {
+        return GrCatID;
     }
 
     public int getCatID() {

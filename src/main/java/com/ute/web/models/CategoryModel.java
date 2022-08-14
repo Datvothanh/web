@@ -17,10 +17,11 @@ public class CategoryModel {
 
     //Admin
     public static void add(Category c) {
-        String Sql = "INSERT INTO categories (CatName) VALUES (:CatName)";
+        String Sql = "INSERT INTO categories (CatName , GrCatID) VALUES (:CatName ,:GrCatID)";
         try (Connection con = DbUtils.getConnection()) {
             con.createQuery(Sql)
                     .addParameter("CatName", c.getCatName())
+                    .addParameter("GrCatID", c.getGrCatID())
                     .executeUpdate();
         }
     }
@@ -39,10 +40,11 @@ public class CategoryModel {
     }
 
     public static void update(Category c) {
-        String Sql = "UPDATE categories set CatName = :CatName where CatID = :CatID";
+        String Sql = "UPDATE categories set CatName = :CatName , GrCatID = :GrCatID where CatID = :CatID";
         try (Connection con = DbUtils.getConnection()) {
             con.createQuery(Sql)
                     .addParameter("CatName", c.getCatName())
+                    .addParameter("GrCatID", c.getGrCatID())
                     .addParameter("CatID", c.getCatID())
                     .executeUpdate();
         }

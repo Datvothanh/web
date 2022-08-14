@@ -1,7 +1,9 @@
 package com.ute.web.controllers;
 
 import com.ute.web.beans.Category;
+import com.ute.web.beans.GroupCategory;
 import com.ute.web.models.CategoryModel;
+import com.ute.web.models.GroupCategoryModel;
 import com.ute.web.utils.ServletUtils;
 
 import javax.servlet.*;
@@ -23,6 +25,8 @@ public class AdminCategoryServlet extends HttpServlet {
             case "/Index":
                 List<Category> list = CategoryModel.findAll();
                 request.setAttribute("categories", list);
+                List<GroupCategory> listGr = GroupCategoryModel.findAll();
+                request.setAttribute("groupCategories", listGr);
                 ServletUtils.forward("/views/vwCategory/Index.jsp", request, response);
                 break;
             case "/Add":
@@ -67,8 +71,9 @@ public class AdminCategoryServlet extends HttpServlet {
     }
 
     private void addCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int groupCategoryID = Integer.parseInt(request.getParameter("GroupCategoryID"));
         String name = request.getParameter("CatName");
-        Category c = new Category(name);
+        Category c = new Category( groupCategoryID , name );
         CategoryModel.add(c);
 //        ServletUtils.forward("/views/vwCategory/Index.jsp", request, response);
         ServletUtils.redirect("/Admin/Category", request, response);
@@ -76,8 +81,9 @@ public class AdminCategoryServlet extends HttpServlet {
 
     private void updateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("CatID"));
+        int groupCategoryID = Integer.parseInt(request.getParameter("GroupCategoryID"));
         String name = request.getParameter("CatName");
-        Category c = new Category(id, name);
+        Category c = new Category(id, groupCategoryID , name);
         CategoryModel.update(c);
         ServletUtils.redirect("/Admin/Category", request, response);
     }

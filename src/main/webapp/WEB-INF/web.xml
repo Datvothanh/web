@@ -24,6 +24,11 @@
     </filter-mapping>
 
     <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/Account/WatchList</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>OtpFilter</filter-name>
         <url-pattern>/Account/Otp</url-pattern>
     </filter-mapping>

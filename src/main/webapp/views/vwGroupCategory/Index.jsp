@@ -1,21 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="categories" scope="request" type="java.util.List<com.ute.web.beans.Category>"/>
 <jsp:useBean id="groupCategories" scope="request" type="java.util.List<com.ute.web.beans.GroupCategory>"/>
+
 <t:main>
     <jsp:body>
         <div class="card">
             <h4 class="card-header d-flex justify-content-between">
-                Categories
-                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Category/Add"
+                Group Categories
+                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/GroupCategory/Add"
                    role="button">
                     <i class="fa fa-plus" aria-hidden="true"></i>
-                    Add Category
+                    Add Group Category
                 </a>
             </h4>
             <c:choose>
-                <c:when test="${categories.size() == 0}">
+                <c:when test="${groupCategories.size() == 0}">
                     <div class="card-body">
                         <p class="card-text">Không có dữ liệu.</p>
                     </div>
@@ -26,25 +26,17 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Category</th>
                                 <th scope="col">Group Category</th>
                                 <th scope="col">&nbsp;</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${categories}" var="c">
+                            <c:forEach items="${groupCategories}" var="g">
                                 <tr>
-                                    <th scope="row">${c.catID}</th>
-                                    <td>${c.catName}</td>
-                                    <c:forEach items="${groupCategories}" var="g">
-                                        <c:if test="${g.grCatID == c.grCatID}">
-                                            <td>${g.grCatName}</td>
-                                        </c:if>
-                                    </c:forEach>
+                                    <th scope="row">${g.grCatID}</th>
+                                    <td>${g.grCatName}</td>
                                     <td class="text-right">
-                                        <a class="btn btn-outline-primary"
-                                           href="${pageContext.request.contextPath}/Admin/Category/Edit?id=${c.catID}"
-                                           role="button">
+                                        <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/GroupCategory/Edit?id=${g.grCatID}" role="button">
                                             <i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>

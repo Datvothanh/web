@@ -1,35 +1,62 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="categoriesWithDetails" scope="request" type="java.util.List<com.ute.web.beans.Category>"/>
+<jsp:useBean id="groupCategoriesWithDetails" scope="request" type="java.util.List<com.ute.web.beans.GroupCategory>"/>
 <div class="card">
-  <h4 class="card-header">
-    <i class="bi bi-list"></i>
-    Danh mục sản phẩm
-  </h4>
-  <div class="list-group list-group-flush">
-    <c:forEach items="${categoriesWithDetails}" var="c">
-      <a href="${pageContext.request.contextPath}/Product/ByCat?id=${c.catID}" class="list-group-item list-group-item-action">
-        <i class="fa fa-caret-right" aria-hidden="true"></i>
-        ${c.catName}
-      </a>
-    </c:forEach>
-<%--    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">--%>
-<%--      The current link item--%>
-<%--    </a>--%>
-  </div>
-</div>
+    <h4 class="card-header">
+        <i class="bi bi-list"></i>
+        Danh mục sản phẩm
+    </h4>
+    <div class="list-group list-group-flush">
+        <c:forEach items="${groupCategoriesWithDetails}" var="g">
+            <%--            <a href="${pageContext.request.contextPath}/Product/ByCat?id=${c.catID}"--%>
+            <%--               class="list-group-item list-group-item-action">--%>
+            <%--                <i class="fa fa-caret-right" aria-hidden="true"></i>--%>
+            <%--                    ${c.catName}--%>
+            <%--            </a>--%>
+            <div class="list-group-item list-group-item-action">
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                       aria-expanded="false">
+                            ${g.grCatName}
+                    </a>
 
-<div class="card mt-3">
-  <h4 class="card-header">
-    Featured
-  </h4>
-  <div class="list-group list-group-flush">
-    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-      The current link item (edited)
-    </a>
-    <a href="#" class="list-group-item list-group-item-action">A second link item</a>
-    <a href="#" class="list-group-item list-group-item-action">A third link item</a>
-    <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
-    <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">A disabled link item</a>
-  </div>
+                    <div class="dropdown-menu">
+                        <c:forEach items="${categoriesWithDetails}" var="c">
+                            <c:if test="${g.grCatID == c.grCatID}">
+                                <a class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/Product/ByCat?id=${c.catID}"><i
+                                        class="fa fa-caret-right" aria-hidden="true"></i>
+                                        ${c.catName}</a>
+                            </c:if>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+        <%--    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">--%>
+        <%--      The current link item--%>
+        <%--    </a>--%>
+    </div>
 </div>
+<c:choose>
+    <c:when test="${auth}">
+        <div class="card mt-3">
+            <h4 class="card-header">
+                <i class="bi bi-list"></i>
+                Danh mục người dùng
+            </h4>
+            <div class="list-group list-group-flush">
+                <a href="${pageContext.request.contextPath}/Account/WatchList"
+                   class="list-group-item list-group-item-action"><i class="fa fa-caret-right" aria-hidden="true"></i>
+                    Danh sách sản phầm yêu thích</a>
+                <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-caret-right"
+                                                                              aria-hidden="true"></i> A third link item</a>
+                <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-caret-right"
+                                                                              aria-hidden="true"></i> A fourth link item</a>
+                <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1"
+                   aria-disabled="true"><i class="fa fa-caret-right" aria-hidden="true"></i> A disabled link item</a>
+            </div>
+        </div>
+    </c:when>
+</c:choose>

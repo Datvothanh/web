@@ -26,39 +26,42 @@
                 </ul>
                 <ul class="list-group">
                     <li class="list-group-item active" aria-current="true">Top 5 sản phẩm có giá cao nhất</li>
-                        <c:choose>
-                            <c:when test="${listTop5HighestPrice.size() == 0}">
-                                <div class="card-body">
-                                    <p class="card-text">Không có dữ liệu.</p>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <c:forEach items="${listTop5HighestPrice}" var="p">
-                                            <div class="col-sm-4 mb-3">
-                                                <div class="card h-100">
-                                                    <img src="${pageContext.request.contextPath}/public/imgs/sp/${p.proID}/main.png" alt="${p.proName}" title="${p.proName}" class="card-img-top">
-                                                    <div class="card-body">
-                                                        <h6 class="card-title">${p.proName}</h6>
-                                                        <h5 class="card-title text-danger">
-                                                            <fmt:formatNumber value="${p.price}" type="number"/>
-                                                        </h5>
-                                                        <p class="card-text">${p.tinyDes}</p>
-                                                    </div>
-                                                    <div class="card-footer text-muted">
-                                                        <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/Product/Detail?id=${p.proID}" role="button">
-                                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                                            Details
-                                                        </a>
-                                                    </div>
+                    <c:choose>
+                        <c:when test="${listTop5HighestPrice.size() == 0}">
+                            <div class="card-body">
+                                <p class="card-text">Không có dữ liệu.</p>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="card-body">
+                                <div class="row">
+                                    <c:forEach items="${listTop5HighestPrice}" var="p">
+                                        <div class="col-sm-4 mb-3">
+                                            <div class="card h-100">
+                                                <img src="${pageContext.request.contextPath}/public/imgs/sp/${p.proID}/main.png"
+                                                     alt="${p.proName}" title="${p.proName}" class="card-img-top">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">${p.proName}</h6>
+                                                    <h5 class="card-title text-danger">
+                                                        <fmt:formatNumber value="${p.startingPrice}" type="number"/>
+                                                    </h5>
+                                                    <p class="card-text">${p.tinyDes}</p>
+                                                </div>
+                                                <div class="card-footer text-muted">
+                                                    <a class="btn btn-sm btn-outline-primary"
+                                                       href="${pageContext.request.contextPath}/Product/Detail?id=${p.proID}"
+                                                       role="button">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        Details
+                                                    </a>
                                                 </div>
                                             </div>
-                                        </c:forEach>
-                                    </div>
+                                        </div>
+                                    </c:forEach>
                                 </div>
-                            </c:otherwise>
-                        </c:choose>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
             </div>
         </div>

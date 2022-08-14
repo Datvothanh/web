@@ -4,13 +4,24 @@ import com.ute.web.models.ProductModel;
 import com.ute.web.utils.ServletUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@MultipartConfig(
+        fileSizeThreshold = 2 * 1024 * 1024,
+        maxFileSize = 50 * 1024 * 1024,
+        maxRequestSize = 50 * 1024 * 1024
+)
 @WebServlet(name = "AdminProductServlet", value = "/Admin/Product/*")
 public class AdminProductServlet extends HttpServlet {
     @Override
@@ -27,6 +38,8 @@ public class AdminProductServlet extends HttpServlet {
                 ServletUtils.forward("/views/vwProduct/Index.jsp", request, response);
                 break;
             case "/Add":
+                Product ProEnd = ProductModel.ProEnd();
+                request.setAttribute("proEnd", ProEnd);
                 ServletUtils.forward("/views/vwProduct/Add.jsp", request, response);
                 break;
             case "/Edit":
@@ -69,26 +82,64 @@ public class AdminProductServlet extends HttpServlet {
 
     private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("ProName");
-        int price = Integer.parseInt(request.getParameter("Price"));
-        int quantity = Integer.parseInt(request.getParameter("Quantity"));
+        String proID = request.getParameter("ProID");
+        int startingPrice = Integer.parseInt(request.getParameter("StartingPrice"));
+        int stepPrice = Integer.parseInt(request.getParameter("StepPrice"));
+        int nowPrice = Integer.parseInt(request.getParameter("NowPrice"));
         int type = Integer.parseInt(request.getParameter("CatID"));
+        int autoExtend = Integer.parseInt(request.getParameter("AutoExtend"));
+        int highestPaidPrice = 0;
+        int sell = 0;
+        int userID = -1;
         String tinyDes = request.getParameter("TinyDes");
         String fullDes = request.getParameter("FullDes");
-        Product p = new Product(price , type , quantity , name , tinyDes, fullDes );
+        String strSD = request.getParameter("StartDay");
+        String strED = request.getParameter("EndDay");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate startDay = LocalDate.parse(strSD, df);
+        LocalDate endDay = LocalDate.parse(strED, df);
+
+        Product p = new Product(startingPrice , type , stepPrice, highestPaidPrice ,nowPrice, autoExtend ,userID , sell ,name , tinyDes, fullDes, startDay, endDay );
         ProductModel.add(p);
-//        ServletUtils.forward("/views/vwProduct/Index.jsp", request, response);
+        Part partMain = request.getPart("ImageMain");
+        Part partSub1 = request.getPart("ImageSub1");
+        Part partSub2 = request.getPart("ImageSub2");
+        Part partSub3 = request.getPart("ImageSub3");
+        String realpath = "/public/imgs/sp/";
+        String realPathAll = realpath.concat(proID);
+        String realPath = this.getServletContext().getRealPath(realPathAll);
+        if (!Files.exists(Path.of(realPath))) {
+            Files.createDirectory(Path.of(realPath));
+            partMain.write(realPath + "/" + "main.jpg");
+            partSub1.write(realPath + "/" + "sub1.jpg");
+            partSub2.write(realPath + "/" + "sub2.jpg");
+            partSub3.write(realPath + "/" + "sub3.jpg");
+        } else {
+            partMain.write(realPath + "/" + "main.jpg");
+            partSub1.write(realPath + "/" + "sub1.jpg");
+            partSub2.write(realPath + "/" + "sub2.jpg");
+            partSub3.write(realPath + "/" + "sub3.jpg");
+        }
         ServletUtils.redirect("/Admin/Product", request, response);
     }
 
     private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int type = Integer.parseInt(request.getParameter("CatID"));
-        int price = Integer.parseInt(request.getParameter("Price"));
-        int quantity = Integer.parseInt(request.getParameter("Quantity"));
+        int startingPrice = Integer.parseInt(request.getParameter("StartingPrice"));
+        int stepPrice = Integer.parseInt(request.getParameter("StepPrice"));
+        int highestPaidPrice = Integer.parseInt(request.getParameter("HighestPaidPrice"));
+        int nowPrice = Integer.parseInt(request.getParameter("NowPrice"));
         int id = Integer.parseInt(request.getParameter("ProID"));
+        int autoExtend = Integer.parseInt(request.getParameter("AutoExtend"));
         String name = request.getParameter("ProName");
         String tinyDes = request.getParameter("TinyDes");
         String fullDes = request.getParameter("FullDes");
-        Product p = new Product(id , price , type, quantity , name , tinyDes , fullDes);
+        String strSD = request.getParameter("StartDay");
+        String strED = request.getParameter("EndDay");
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDate startDay = LocalDate.parse(strSD, df);
+        LocalDate endDay = LocalDate.parse(strED, df);
+        Product p = new Product(id,startingPrice , type , stepPrice, highestPaidPrice ,nowPrice, autoExtend , name , tinyDes, fullDes, startDay, endDay);
         ProductModel.update(p);
         ServletUtils.redirect("/Admin/Product", request, response);
     }

@@ -7,20 +7,16 @@
         <form action="" method="post">
             <div class="card">
                 <h4 class="card-header">
-                    New Category
+                    New GroupCategory
                 </h4>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="numGroupCategory">GroupCategory</label>
-                        <input type="text" class="form-control" id="numGroupCategory" name="GroupCategoryID" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtCatName">Category</label>
-                        <input type="text" class="form-control" id="txtCatName" name="CatName" >
+                        <label for="txtGroupCatName">Name Group Category</label>
+                        <input type="text" class="form-control" id="txtGroupCatName" name="GroupCatName" autofocus>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Category/" role="button">
+                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/GroupCategory/" role="button">
                         <i class="fa fa-backward" aria-hidden="true"></i>
                         Danh sách
                     </a>

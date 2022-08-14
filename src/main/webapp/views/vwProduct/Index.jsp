@@ -28,10 +28,11 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Product</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
+                                <th scope="col">StartingPrice</th>
                                 <th scope="col">TinyDes</th>
                                 <th scope="col">FullDes</th>
+                                <th scope="col">StepPrice</th>
+                                <th scope="col">HighestPaidPrice</th>
                                 <th scope="col">&nbsp;</th>
                             </tr>
                             </thead>
@@ -41,11 +42,12 @@
                                     <th scope="row">${p.proID}</th>
                                     <td>${p.proName}</td>
                                     <td>
-                                        <fmt:formatNumber value="${p.price}" type="number"/>
+                                        <fmt:formatNumber value="${p.startingPrice}" type="number"/>
                                     </td>
-                                    <td>${p.quantity}</td>
                                     <td>${p.tinyDes}</td>
                                     <td>${p.fullDes}</td>
+                                    <td>${p.stepPrice}</td>
+                                    <td>${p.highestPaidPrice}</td>
                                     <td class="text-right">
                                         <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/Product/Edit?id=${p.proID}" role="button">
                                             <i class="fa fa-pencil" aria-hidden="true"></i></a>

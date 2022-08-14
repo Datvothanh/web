@@ -4,6 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="products" scope="request" type="java.util.List<com.ute.web.beans.Product>"/>
 <jsp:useBean id="favourite" scope="request" type="java.util.List<com.ute.web.beans.Favourite>"/>
+<jsp:useBean id="user" scope="request" type="java.util.List<com.ute.web.beans.User>"/>
+<jsp:useBean id="auction" scope="request" type="java.util.List<com.ute.web.beans.Auction>"/>
 <t:main>
     <jsp:body>
         <div class="card">
@@ -31,28 +33,12 @@
                                                 <input value="${p.proID}" name="idPro" hidden>
                                             </label>
                                             <label>
-                                                <input value="0" name="favourite" hidden>
+                                                <input value="1" name="favourite" hidden>
                                             </label>
                                         </form>
                                         <c:forEach items="${favourite}" var="f">
                                             <c:if test="${f.userID == authUser.id && f.proID == p.proID}">
                                                 <form id="frmFavourite-Add${p.proID}" method="post"
-                                                      action="${pageContext.request.contextPath}/Product/FavouriteEdit">
-                                                    <label>
-                                                        <input value="${authUser.id}" name="idUser"
-                                                               hidden>
-                                                    </label>
-                                                    <label>
-                                                        <input value="${p.proID}" name="idPro" hidden>
-                                                    </label>
-                                                    <label>
-                                                        <input value="0" name="favourite" hidden>
-                                                    </label>
-                                                    <label>
-                                                        <input value="${f.faID}" name="idFa" hidden>
-                                                    </label>
-                                                </form>
-                                                <form id="frmFavourite-Delete${p.proID}" method="post"
                                                       action="${pageContext.request.contextPath}/Product/FavouriteEdit">
                                                     <label>
                                                         <input value="${authUser.id}" name="idUser"
@@ -68,16 +54,72 @@
                                                         <input value="${f.faID}" name="idFa" hidden>
                                                     </label>
                                                 </form>
+                                                <form id="frmFavourite-Delete${p.proID}" method="post"
+                                                      action="${pageContext.request.contextPath}/Product/FavouriteEdit">
+                                                    <label>
+                                                        <input value="${authUser.id}" name="idUser"
+                                                               hidden>
+                                                    </label>
+                                                    <label>
+                                                        <input value="${p.proID}" name="idPro" hidden>
+                                                    </label>
+                                                    <label>
+                                                        <input value="0" name="favourite" hidden>
+                                                    </label>
+                                                    <label>
+                                                        <input value="${f.faID}" name="idFa" hidden>
+                                                    </label>
+                                                </form>
                                             </c:if>
                                         </c:forEach>
 
-                                        <img src="${pageContext.request.contextPath}/public/imgs/sp/${p.proID}/main.png"
+                                        <img src="${pageContext.request.contextPath}/public/imgs/sp/${p.proID}/main.jpg"
                                              alt="${p.proName}" title="${p.proName}" class="card-img-top">
                                         <div class="card-body">
                                             <h6 class="card-title">${p.proName}</h6>
-                                            <h5 class="card-title text-danger">
-                                                <fmt:formatNumber value="${p.price}" type="number"/>
-                                            </h5>
+                                            <c:if test="${p.nowPrice != 0}">
+                                                <h5 class="card-title text-danger">
+                                                    Giá có thể mua luôn:
+                                                    <span class="text-danger font-weight-bold"><fmt:formatNumber
+                                                            value="${p.nowPrice}" type="number"/></span>
+                                                </h5>
+                                            </c:if>
+                                            <c:choose>
+                                                <c:when test="${p.highestPaidPrice == 0}">
+                                                    <h5 class="card-title text-danger">
+                                                        Giá khởi điểm:
+                                                        <span class="text-danger font-weight-bold"><fmt:formatNumber
+                                                                value="${p.startingPrice}" type="number"/></span>
+                                                    </h5>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <h5 class="card-title text-danger">
+                                                        Giá trả cao nhất:
+                                                        <span class="text-danger font-weight-bold"><fmt:formatNumber
+                                                                value="${p.highestPaidPrice}" type="number"/></span>
+                                                    </h5>
+                                                    <h6 class="card-title text-danger">
+                                                        <c:forEach items="${user}" var="u">
+                                                            <c:if test="${u.id == p.userID}">
+                                                                Người đặt giá: ${u.name}
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </h6>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <h6 class="card-title text-dark">
+                                                Ngày đăng sản phẩm: ${p.startDay}
+                                            </h6>
+                                            <c:set var="Count" scope="session" value="${0}" />
+                                            <c:forEach items="${auction}" var="a">
+                                                <c:if test="${a.proID == p.proID}">
+                                                    <c:set var="Count" scope="session" value="${Count + 1}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <h6 class="card-title text-dark">
+                                                Số lượt ra giá hiện tại:
+                                                    ${Count}
+                                            </h6>
                                             <p class="card-text">${p.tinyDes}</p>
                                         </div>
                                         <div class="card-footer text-muted">
@@ -91,7 +133,7 @@
                                                 <c:when test="${auth}">
                                                     <c:set var="Test" scope="session" value="${1}"/>
                                                     <c:forEach items="${favourite}" var="f">
-                                                        <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 1}">
+                                                        <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 0}">
                                                             <a class="btn btn-sm btn-outline-danger"
                                                                href="javascript:$('#frmFavourite-Add${p.proID}').submit()">
                                                                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
@@ -99,7 +141,7 @@
                                                                 <c:set var="Test" scope="session" value="${0}"/>
                                                             </a>
                                                         </c:if>
-                                                        <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 0 }">
+                                                        <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 1 }">
                                                             <a class="btn btn-sm btn-outline-danger"
                                                                href="javascript:$('#frmFavourite-Delete${p.proID}').submit()">
                                                                 <i class="fa fa-cart-plus" aria-hidden="true"></i>

@@ -6,9 +6,11 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tags/main.tag" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/tags" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/404.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/vwAccount/Register.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/vwAccount" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/vwGroupCategory/Add.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/vwGroupCategory" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/vwMisc/Editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/vwMisc" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct/Add.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct/ByCat.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct/Detail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct/Edit.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/vwProduct" />
       </map>
     </option>

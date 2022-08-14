@@ -2,7 +2,11 @@ package com.ute.web.controllers;
 
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.ute.web.beans.Favourite;
+import com.ute.web.beans.Product;
 import com.ute.web.beans.User;
+import com.ute.web.models.FavouriteModel;
+import com.ute.web.models.ProductModel;
 import com.ute.web.models.UserModel;
 import com.ute.web.recaptcha.VerifyUtils;
 import com.ute.web.utils.ServletUtils;
@@ -17,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
@@ -45,6 +50,13 @@ public class AccountServlet extends HttpServlet {
                 break;
             case "/Profile":
                 ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
+                break;
+            case "/WatchList":
+                List<Product> listAll = ProductModel.findAll();
+                List<Favourite> listFavourite = FavouriteModel.findAll();
+                request.setAttribute("productAll", listAll);
+                request.setAttribute("favourite", listFavourite);
+                ServletUtils.forward("/views/vwAccount/WatchList.jsp", request, response);
                 break;
             case "/IsAvailable":
                 String username = request.getParameter("user");
