@@ -2,8 +2,10 @@ package com.ute.web.controllers;
 
 import com.ute.web.beans.Category;
 import com.ute.web.beans.GroupCategory;
+import com.ute.web.beans.Product;
 import com.ute.web.models.CategoryModel;
 import com.ute.web.models.GroupCategoryModel;
+import com.ute.web.models.ProductModel;
 import com.ute.web.utils.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "AdminGroupCategoryServlet", value = "/Admin/GroupCategory/*")
@@ -42,6 +45,16 @@ public class AdminGroupCategoryServlet extends HttpServlet {
 //                    ServletUtils.redirect("Admin/GroupCategory/" , request , response);//Đưa về lại trang mà mình muốn
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
+                break;
+            case "/IsAvailable":
+                int GrCatID = Integer.parseInt(request.getParameter("GrCatID"));
+                List<Category> listCategory = CategoryModel.findByGroupCatID(GrCatID);
+                boolean isAvailable = (listCategory.size() == 0);
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                out.print(isAvailable);
+                out.flush();
                 break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);

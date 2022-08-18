@@ -7,8 +7,13 @@
 <t:main>
     <jsp:body>
         <div class="card">
-            <h4 class="card-header">
+            <h4 class="card-header d-flex justify-content-between">
                 Watch List
+                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Account/Profile"
+                   role="button">
+                    <i class="bi bi-backspace-fill" aria-hidden="true"></i>
+                    Trở về
+                </a>
             </h4>
             <div class="card-body">
                 <div class="row">

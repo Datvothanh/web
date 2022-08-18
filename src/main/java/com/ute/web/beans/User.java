@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 public class User {
     //0:Admin
-    //1:Ban
-    //2:mua
-    //3:khach
-    //4:khach can xac nhan
+    //1:Nguoi ban
+    //2:Người ban can xác nhận
+    //3:Người mua
+    //4:Người mua can xac nhan
     private int id , permission , code;
     private String username , password , name , email;
     private LocalDate dob;
@@ -35,6 +35,11 @@ public class User {
         this.name = name;
         this.email = email;
         this.dob = dob;
+    }
+
+    public User(int id, int permission) {
+        this.id = id;
+        this.permission = permission;
     }
 
     public int getId() {
@@ -67,5 +72,9 @@ public class User {
 
     public LocalDate getDob() {
         return dob;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

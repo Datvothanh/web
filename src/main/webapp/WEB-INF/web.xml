@@ -33,5 +33,49 @@
         <url-pattern>/Account/Otp</url-pattern>
     </filter-mapping>
 
+    <filter-mapping>
+        <filter-name>AuthAdminFilter</filter-name>
+        <url-pattern>/Admin/Permission/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthAdminFilter</filter-name>
+        <url-pattern>/Admin/GroupCategory/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthAdminFilter</filter-name>
+        <url-pattern>/Admin/Category/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthAdminFilter</filter-name>
+        <url-pattern>/Admin/Product/Index</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthAdminFilter</filter-name>
+        <url-pattern>/Admin/Product</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthAdminFilter</filter-name>
+        <url-pattern>/Admin/Product/</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthAdminFilter</filter-name>
+        <url-pattern>/Admin/Product/Edit</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthAddProductFilter</filter-name>
+        <url-pattern>/Admin/Product/Add</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>AuthSellerFilter</filter-name>
+        <url-pattern>/Account/SellingList</url-pattern>
+    </filter-mapping>
 
 </web-app>

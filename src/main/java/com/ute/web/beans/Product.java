@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Product {
-    private int ProID, StartingPrice, CatID, StepPrice, HighestPaidPrice, NowPrice, AutoExtend , UserID ,Sell;
+    private int ProID, StartingPrice, CatID, StepPrice, HighestPaidPrice, NowPrice, AutoExtend , UserID ,Sell , CountAuction ,UserSellID;
     private String ProName, TinyDes, FullDes;
     private LocalDate StartDay, EndDay;
 
@@ -12,10 +12,16 @@ public class Product {
 
     }
 
-    public Product(int proID, int highestPaidPrice, int userID) {
+    public Product(int proID, int countAuction) {
+        ProID = proID;
+        CountAuction = countAuction;
+    }
+
+    public Product(int proID, int highestPaidPrice, int userID , int countAuction) {
         ProID = proID;
         HighestPaidPrice = highestPaidPrice;
         UserID = userID;
+        CountAuction = countAuction;
     }
 
     public Product(int proID, int startingPrice, int catID, int stepPrice, int highestPaidPrice, int nowPrice, int autoExtend, String proName, String tinyDes, String fullDes, LocalDate startDay, LocalDate endDay) {
@@ -33,7 +39,7 @@ public class Product {
         EndDay = endDay;
     }
 
-    public Product(int startingPrice, int catID, int stepPrice, int highestPaidPrice, int nowPrice, int autoExtend, int userID, int sell, String proName, String tinyDes, String fullDes, LocalDate startDay, LocalDate endDay) {
+    public Product(int startingPrice, int catID, int stepPrice, int highestPaidPrice, int nowPrice, int autoExtend, int userID, int sell,int countAuction ,int userSellID, String proName, String tinyDes, String fullDes, LocalDate startDay, LocalDate endDay) {
         ProID = -1;
         StartingPrice = startingPrice;
         CatID = catID;
@@ -43,6 +49,8 @@ public class Product {
         AutoExtend = autoExtend;
         UserID = userID;
         Sell = sell;
+        CountAuction = countAuction;
+        UserSellID = userSellID;
         ProName = proName;
         TinyDes = tinyDes;
         FullDes = fullDes;
@@ -50,7 +58,13 @@ public class Product {
         EndDay = endDay;
     }
 
+    public int getUserSellID() {
+        return UserSellID;
+    }
 
+    public int getCountAuction() {
+        return CountAuction;
+    }
 
     public int getProID() {
         return ProID;

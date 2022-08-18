@@ -75,4 +75,23 @@ public class UserModel {
                     .executeUpdate();
         }
     }
+
+    public static void updatePermission(User u) {
+        String Sql = "UPDATE users SET Permission = :Permission WHERE Id = :Id";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(Sql)
+                    .addParameter("Permission", u.getPermission())
+                    .addParameter("Id", u.getId())
+                    .executeUpdate();
+        }
+    }
+
+    public static void delete(int id) {
+        String Sql = "DELETE from users where id = :id";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(Sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        }
+    }
 }

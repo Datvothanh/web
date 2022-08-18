@@ -1,20 +1,17 @@
 package com.ute.web.controllers;
 
-import com.ute.web.beans.Auction;
-import com.ute.web.beans.Favourite;
-import com.ute.web.beans.Product;
-import com.ute.web.beans.User;
-import com.ute.web.models.AuctionModel;
-import com.ute.web.models.FavouriteModel;
-import com.ute.web.models.ProductModel;
-import com.ute.web.models.UserModel;
+import com.ute.web.beans.*;
+import com.ute.web.models.*;
 import com.ute.web.utils.ServletUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
+
+import static com.ute.web.tools.mask.maskString;
 
 @WebServlet(name = "ProductFEServlet", value = "/Product/*")
 public class ProductFEServlet extends HttpServlet {
@@ -31,7 +28,16 @@ public class ProductFEServlet extends HttpServlet {
                 List<Favourite> listFavourite = FavouriteModel.findAll();
                 List<User> User = UserModel.findAll();
                 List<Auction> Auction = AuctionModel.findAll();
+                Category category = CategoryModel.findById(catId);
+                for (com.ute.web.beans.User value : User) {
+                    try {
+                        value.setName(maskString(value.getName(), 0, 4, '*'));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 request.setAttribute("user", User);
+                request.setAttribute("category", category);
                 request.setAttribute("products", list);
                 request.setAttribute("favourite", listFavourite);
                 request.setAttribute("auction", Auction);
@@ -48,7 +54,18 @@ public class ProductFEServlet extends HttpServlet {
                     request.setAttribute("TopAuctionHighestPrice", TopAuctionHighestPrice);
                     List<Favourite> ListFavourite = FavouriteModel.findAll();
                     request.setAttribute("favourite", ListFavourite);
+                    List<Product> proCat5 = ProductModel.findByCatID5(product.getCatID(), proId);
+                    request.setAttribute("proCat5", proCat5);
+                    List<BanBidder> BanBidder = BanBidderModel.findAll();
+                    request.setAttribute("BanBidder", BanBidder);
                     List<User> user = UserModel.findAll();
+                    for (com.ute.web.beans.User value : user) {
+                        try {
+                            value.setName(maskString(value.getName(), 0, 4, '*'));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                     request.setAttribute("user", user);
                     ServletUtils.forward("/views/vwProduct/Detail.jsp", request, response);
                 }
@@ -65,6 +82,9 @@ public class ProductFEServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String path = request.getPathInfo();
         switch (path) {
+            case "/BanBidder":
+                banBidder(request, response);
+                break;
             case "/Favourite":
                 favourite(request, response);
                 break;
@@ -80,22 +100,51 @@ public class ProductFEServlet extends HttpServlet {
         }
     }
 
+    private void banBidder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int idUser = Integer.parseInt(request.getParameter("idUser"));
+        int idPro = Integer.parseInt(request.getParameter("idPro"));
+        int idAu = Integer.parseInt(request.getParameter("idAu"));
+        int countAuction = Integer.parseInt(request.getParameter("countAuction"));
+        int idUserHold = Integer.parseInt(request.getParameter("idUserHold"));
+
+        if (idUserHold == idUser) {
+            if (AuctionModel.findSizeProID(idPro) == 1) {
+                Product p = new Product(idPro, 0, -1, 0);
+                ProductModel.updateHighestPaidPrice(p);
+            } else {
+                Auction auctionSecond = AuctionModel.findSecondHighestPrice(idPro);
+                Product p = new Product(idPro, auctionSecond.getPrice() , auctionSecond.getUserID(), countAuction-1);
+                ProductModel.updateHighestPaidPrice(p);
+            }
+        } else {
+            Product p = new Product(idPro, countAuction-1);
+            ProductModel.updateCountAuction(p);
+        }
+        AuctionModel.delete(idAu);
+        BanBidder banBidder = new BanBidder(idUser, idPro);
+        BanBidderModel.add(banBidder);
+        String url = request.getHeader("referer");
+        ServletUtils.redirect(url, request, response);
+    }
+
     private void Auction(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int idUser = Integer.parseInt(request.getParameter("idUser"));
         int idPro = Integer.parseInt(request.getParameter("idPro"));
         int price = Integer.parseInt(request.getParameter("price"));
+        int countAuction = Integer.parseInt(request.getParameter("countAuction"));
         List<Auction> Auction = AuctionModel.findAll();
         request.setAttribute("auction", Auction);
-        if (AuctionModel.findUserID(idUser) == -1) {
+        if (AuctionModel.findUserIDProID(idUser, idPro) == -1) {
             Auction auction = new Auction(idUser, idPro, price);
             AuctionModel.add(auction);
-            Product p = new Product( idPro , price , idUser);
+            int CountAuction = countAuction + 1;
+            Product p = new Product(idPro, price, idUser, CountAuction);
             ProductModel.updateHighestPaidPrice(p);
         } else {
-            int idAu = AuctionModel.findUserID(idUser);
-            Auction auction = new Auction(idAu ,idUser, idPro, price);
+            int idAu = AuctionModel.findUserIDProID(idUser, idPro);
+            Auction auction = new Auction(idAu, idUser, idPro, price);
             AuctionModel.update(auction);
-            Product p = new Product( idPro , price , idUser);
+            Product p = new Product(idPro, price, idUser, countAuction);
             ProductModel.updateHighestPaidPrice(p);
         }
 

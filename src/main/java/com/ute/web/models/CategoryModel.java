@@ -1,6 +1,7 @@
 package com.ute.web.models;
 
 import com.ute.web.beans.Category;
+import com.ute.web.beans.Product;
 import com.ute.web.utils.DbUtils;
 import org.sql2o.Connection;
 
@@ -36,6 +37,15 @@ public class CategoryModel {
                 return null;
             }
             return list.get(0);
+        }
+    }
+
+    public static List<Category> findByGroupCatID(int GrCatId) {
+        final String query = "select * from categories where GrCatID =:GrCatID";
+        try (Connection con = DbUtils.getConnection()) {
+            return con.createQuery(query)
+                    .addParameter("GrCatID", GrCatId)
+                    .executeAndFetch(Category.class);
         }
     }
 

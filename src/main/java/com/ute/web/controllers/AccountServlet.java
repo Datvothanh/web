@@ -49,6 +49,8 @@ public class AccountServlet extends HttpServlet {
                     ServletUtils.forward("/views/vwAccount/Login.jsp", request, response);
                 break;
             case "/Profile":
+                List<User> userList = UserModel.findAll();
+                request.setAttribute("userList" , userList);
                 ServletUtils.forward("/views/vwAccount/Profile.jsp", request, response);
                 break;
             case "/WatchList":
@@ -57,6 +59,11 @@ public class AccountServlet extends HttpServlet {
                 request.setAttribute("productAll", listAll);
                 request.setAttribute("favourite", listFavourite);
                 ServletUtils.forward("/views/vwAccount/WatchList.jsp", request, response);
+                break;
+            case "/SellingList":
+                List<Product> list = ProductModel.findAll();
+                request.setAttribute("products", list);
+                ServletUtils.forward("/views/vwAccount/SellingList.jsp", request, response);
                 break;
             case "/IsAvailable":
                 String username = request.getParameter("user");
@@ -80,6 +87,12 @@ public class AccountServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String path = request.getPathInfo();
         switch (path) {
+            case "/Delete":
+                deleteUser(request,response);
+                break;
+            case "/UpdatePermission":
+                updatePermission(request,response);
+                break;
             case "/Otp":
                 otpUser(request,response);
                 break;
@@ -97,6 +110,22 @@ public class AccountServlet extends HttpServlet {
                 break;
         }
 
+    }
+
+    private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int userID =  Integer.parseInt(request.getParameter("idUser"));
+        UserModel.delete(userID);
+        String url = request.getHeader("referer");
+        ServletUtils.redirect(url, request, response);
+    }
+
+    private void updatePermission(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int userID =  Integer.parseInt(request.getParameter("idUser"));
+        int permission = Integer.parseInt(request.getParameter("permission"));
+        User user = new User(userID , permission);
+        UserModel.updatePermission(user);
+        String url = request.getHeader("referer");
+        ServletUtils.redirect(url, request, response);
     }
 
     private void otpUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

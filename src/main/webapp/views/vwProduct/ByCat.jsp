@@ -3,14 +3,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="products" scope="request" type="java.util.List<com.ute.web.beans.Product>"/>
+<jsp:useBean id="category" scope="request" type="com.ute.web.beans.Category"/>
 <jsp:useBean id="favourite" scope="request" type="java.util.List<com.ute.web.beans.Favourite>"/>
 <jsp:useBean id="user" scope="request" type="java.util.List<com.ute.web.beans.User>"/>
 <jsp:useBean id="auction" scope="request" type="java.util.List<com.ute.web.beans.Auction>"/>
 <t:main>
     <jsp:body>
         <div class="card">
-            <h4 class="card-header">
-                Products
+            <h4 class="card-header d-flex justify-content-between">
+                ${category.catName}
+                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Home/Index"
+                   role="button">
+                    <i class="bi bi-backspace-fill" aria-hidden="true"></i>
+                    Trở về
+                </a>
             </h4>
             <c:choose>
                 <c:when test="${products.size() == 0}">
@@ -110,15 +116,9 @@
                                             <h6 class="card-title text-dark">
                                                 Ngày đăng sản phẩm: ${p.startDay}
                                             </h6>
-                                            <c:set var="Count" scope="session" value="${0}" />
-                                            <c:forEach items="${auction}" var="a">
-                                                <c:if test="${a.proID == p.proID}">
-                                                    <c:set var="Count" scope="session" value="${Count + 1}" />
-                                                </c:if>
-                                            </c:forEach>
                                             <h6 class="card-title text-dark">
                                                 Số lượt ra giá hiện tại:
-                                                    ${Count}
+                                                    ${p.countAuction}
                                             </h6>
                                             <p class="card-text">${p.tinyDes}</p>
                                         </div>
@@ -129,36 +129,44 @@
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                                 Details
                                             </a>
-                                            <c:choose>
-                                                <c:when test="${auth}">
-                                                    <c:set var="Test" scope="session" value="${1}"/>
-                                                    <c:forEach items="${favourite}" var="f">
-                                                        <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 0}">
+                                            <c:if test="${auth}">
+                                                <c:choose>
+                                                    <c:when test="${p.userSellID != authUser.id}">
+                                                        <c:set var="Test" scope="session" value="${1}"/>
+                                                        <c:forEach items="${favourite}" var="f">
+                                                            <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 0}">
+                                                                <a class="btn btn-sm btn-outline-danger"
+                                                                   href="javascript:$('#frmFavourite-Add${p.proID}').submit()">
+                                                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                                                    Thêm vào danh sách yêu thích
+                                                                    <c:set var="Test" scope="session" value="${0}"/>
+                                                                </a>
+                                                            </c:if>
+                                                            <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 1 }">
+                                                                <a class="btn btn-sm btn-outline-danger"
+                                                                   href="javascript:$('#frmFavourite-Delete${p.proID}').submit()">
+                                                                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                                                                    Xóa khỏi danh sách yêu thích
+                                                                    <c:set var="Test" scope="session" value="${0}"/>
+                                                                </a>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                        <c:if test="${Test == 1 }">
                                                             <a class="btn btn-sm btn-outline-danger"
-                                                               href="javascript:$('#frmFavourite-Add${p.proID}').submit()">
+                                                               href="javascript:$('#frmFavourite${p.proID}').submit()">
                                                                 <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                                                 Thêm vào danh sách yêu thích
-                                                                <c:set var="Test" scope="session" value="${0}"/>
                                                             </a>
                                                         </c:if>
-                                                        <c:if test="${f.userID == authUser.id && f.proID == p.proID && f.favourite == 1 }">
-                                                            <a class="btn btn-sm btn-outline-danger"
-                                                               href="javascript:$('#frmFavourite-Delete${p.proID}').submit()">
-                                                                <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                                                Xóa khỏi danh sách yêu thích
-                                                                <c:set var="Test" scope="session" value="${0}"/>
-                                                            </a>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                    <c:if test="${Test == 1 }">
-                                                        <a class="btn btn-sm btn-outline-danger"
-                                                           href="javascript:$('#frmFavourite${p.proID}').submit()">
-                                                            <i class="fa fa-cart-plus" aria-hidden="true"></i>
-                                                            Thêm vào danh sách yêu thích
-                                                        </a>
-                                                    </c:if>
-                                                </c:when>
-                                            </c:choose>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="btn btn-sm bg-warning">
+                                                            <i class="bi bi-box-seam" aria-hidden="true"></i>
+                                                            Sản phẩm đang bán
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

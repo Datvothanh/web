@@ -2,14 +2,19 @@ package com.ute.web.controllers;
 
 import com.ute.web.beans.Category;
 import com.ute.web.beans.GroupCategory;
+import com.ute.web.beans.Product;
+import com.ute.web.beans.User;
 import com.ute.web.models.CategoryModel;
 import com.ute.web.models.GroupCategoryModel;
+import com.ute.web.models.ProductModel;
+import com.ute.web.models.UserModel;
 import com.ute.web.utils.ServletUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @WebServlet(name = "AdminCategoryServlet", value = "/Admin/Category/*")
@@ -42,6 +47,16 @@ public class AdminCategoryServlet extends HttpServlet {
 //                    ServletUtils.redirect("Admin/Category/" , request , response);//Đưa về lại trang mà mình muốn
                     ServletUtils.forward("/views/204.jsp", request, response);
                 }
+                break;
+            case "/IsAvailable":
+                int catID = Integer.parseInt(request.getParameter("catID"));
+                List<Product> listProduct = ProductModel.findByCatID(catID);
+                boolean isAvailable = (listProduct.size() == 0);
+                PrintWriter out = response.getWriter();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                out.print(isAvailable);
+                out.flush();
                 break;
             default:
                 ServletUtils.forward("/views/404.jsp", request, response);

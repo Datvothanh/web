@@ -8,11 +8,18 @@
         <div class="card">
             <h4 class="card-header d-flex justify-content-between">
                 Group Categories
-                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/GroupCategory/Add"
-                   role="button">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    Add Group Category
-                </a>
+                <div>
+                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Account/Profile"
+                       role="button">
+                        <i class="bi bi-backspace-fill" aria-hidden="true"></i>
+                        Trở về
+                    </a>
+                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/GroupCategory/Add"
+                       role="button">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Add Group Category
+                    </a>
+                </div>
             </h4>
             <c:choose>
                 <c:when test="${groupCategories.size() == 0}">
@@ -36,7 +43,9 @@
                                     <th scope="row">${g.grCatID}</th>
                                     <td>${g.grCatName}</td>
                                     <td class="text-right">
-                                        <a class="btn btn-outline-primary" href="${pageContext.request.contextPath}/Admin/GroupCategory/Edit?id=${g.grCatID}" role="button">
+                                        <a class="btn btn-outline-primary"
+                                           href="${pageContext.request.contextPath}/Admin/GroupCategory/Edit?id=${g.grCatID}"
+                                           role="button">
                                             <i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>

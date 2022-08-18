@@ -39,24 +39,3 @@
         <%--    </a>--%>
     </div>
 </div>
-<c:choose>
-    <c:when test="${auth}">
-        <div class="card mt-3">
-            <h4 class="card-header">
-                <i class="bi bi-list"></i>
-                Danh mục người dùng
-            </h4>
-            <div class="list-group list-group-flush">
-                <a href="${pageContext.request.contextPath}/Account/WatchList"
-                   class="list-group-item list-group-item-action"><i class="fa fa-caret-right" aria-hidden="true"></i>
-                    Danh sách sản phầm yêu thích</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-caret-right"
-                                                                              aria-hidden="true"></i> A third link item</a>
-                <a href="#" class="list-group-item list-group-item-action"><i class="fa fa-caret-right"
-                                                                              aria-hidden="true"></i> A fourth link item</a>
-                <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1"
-                   aria-disabled="true"><i class="fa fa-caret-right" aria-hidden="true"></i> A disabled link item</a>
-            </div>
-        </div>
-    </c:when>
-</c:choose>

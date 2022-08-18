@@ -9,11 +9,18 @@
         <div class="card">
             <h4 class="card-header d-flex justify-content-between">
                 Products (Admin)
+                <div>
+                <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Account/Profile"
+                   role="button">
+                    <i class="bi bi-backspace-fill" aria-hidden="true"></i>
+                    Trở về
+                </a>
                 <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Product/Add"
                    role="button">
                     <i class="fa fa-plus" aria-hidden="true"></i>
-                    Add Product
+                    Thêm sản phẩm
                 </a>
+                </div>
             </h4>
             <c:choose>
                 <c:when test="${products.size() == 0}">

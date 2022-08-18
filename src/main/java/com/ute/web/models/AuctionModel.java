@@ -40,11 +40,12 @@ public class AuctionModel {
         }
     }
 
-    public static int findUserID (int UserID) {
-        final String query = "select * from auctions where UserID=:UserID";
+    public static int findUserIDProID (int UserID , int ProID) {
+        final String query = "select * from auctions where UserID=:UserID AND ProID=:ProID";
         try (Connection con = DbUtils.getConnection()) {
             List<Auction> list = con.createQuery(query)
                     .addParameter("UserID", UserID)
+                    .addParameter("ProID", ProID)
                     .executeAndFetch(Auction.class);
             if (list.size() == 0) {
                 return -1;
@@ -52,6 +53,17 @@ public class AuctionModel {
             return list.get(0).getAuID();
         }
     }
+
+    public static int findSizeProID (int ProID) {
+        final String query = "select * from auctions where ProID=:ProID";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Auction> list = con.createQuery(query)
+                    .addParameter("ProID", ProID)
+                    .executeAndFetch(Auction.class);
+            return list.size();
+        }
+    }
+
 
     public static List<Auction> findTopHighestPrice () {
         final String query = "SELECT * FROM auctions order by Price desc";
@@ -61,5 +73,23 @@ public class AuctionModel {
         }
     }
 
+    public static Auction findSecondHighestPrice (int ProID) {
+        final String query = "SELECT * FROM auctions WHERE ProID=:ProID order by Price desc ";
+        try (Connection con = DbUtils.getConnection()) {
+            List<Auction> list = con.createQuery(query)
+                    .addParameter("ProID", ProID)
+                    .executeAndFetch(Auction.class);
+            return list.get(1);
+        }
+    }
+
+    public static void delete(int id) {
+        String Sql = "DELETE from auctions where AuID = :AuID";
+        try (Connection con = DbUtils.getConnection()) {
+            con.createQuery(Sql)
+                    .addParameter("AuID", id)
+                    .executeUpdate();
+        }
+    }
 
 }

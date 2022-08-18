@@ -32,13 +32,25 @@
     <jsp:body>
         <form action="" method="post" enctype="multipart/form-data">
             <div class="card">
-                <h4 class="card-header">
+                <h4 class="card-header d-flex justify-content-between">
                     Sản phẩm mới
+                    <c:if test="${authUser.permission != 0}">
+                        <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Account/Profile"
+                           role="button">
+                            <i class="bi bi-backspace-fill" aria-hidden="true"></i>
+                            Trở về
+                        </a>
+                    </c:if>
                 </h4>
                 <div class="card-body">
+                    <div class="form-group" hidden>
+                        <label for="UserSellID">User Sell ID</label>
+                        <input type="text" class="form-control" id="UserSellID" name="UserSellID"
+                               value="${authUser.id}">
+                    </div>
                     <div class="form-group">
                         <label for="ProID">ProID</label>
-                        <input type="text" class="form-control"  id="ProID" name="ProID" value="${proEnd.proID + 1}">
+                        <input type="text" class="form-control" id="ProID" name="ProID" value="${proEnd.proID + 1}">
                     </div>
                     <div class="form-group">
                         <label for="txtProName">Tên sản phẩm</label>
@@ -100,11 +112,13 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Product/"
-                       role="button">
-                        <i class="fa fa-backward" aria-hidden="true"></i>
-                        Danh sách sản phẩm
-                    </a>
+                    <c:if test="${authUser.permission == 0}">
+                        <a class="btn btn-outline-success" href="${pageContext.request.contextPath}/Admin/Product/"
+                           role="button">
+                            <i class="fa fa-backward" aria-hidden="true"></i>
+                            Danh sách sản phẩm
+                        </a>
+                    </c:if>
                     <button type="submit" class="btn btn-primary">
                         <i class="fa fa-check" aria-hidden="true"></i>
                         Lưu

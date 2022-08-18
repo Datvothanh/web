@@ -83,6 +83,7 @@ public class AdminProductServlet extends HttpServlet {
     private void addProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("ProName");
         String proID = request.getParameter("ProID");
+        int userSellID = Integer.parseInt(request.getParameter("UserSellID"));
         int startingPrice = Integer.parseInt(request.getParameter("StartingPrice"));
         int stepPrice = Integer.parseInt(request.getParameter("StepPrice"));
         int nowPrice = Integer.parseInt(request.getParameter("NowPrice"));
@@ -91,6 +92,7 @@ public class AdminProductServlet extends HttpServlet {
         int highestPaidPrice = 0;
         int sell = 0;
         int userID = -1;
+        int countAuction = 0;
         String tinyDes = request.getParameter("TinyDes");
         String fullDes = request.getParameter("FullDes");
         String strSD = request.getParameter("StartDay");
@@ -98,8 +100,7 @@ public class AdminProductServlet extends HttpServlet {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate startDay = LocalDate.parse(strSD, df);
         LocalDate endDay = LocalDate.parse(strED, df);
-
-        Product p = new Product(startingPrice , type , stepPrice, highestPaidPrice ,nowPrice, autoExtend ,userID , sell ,name , tinyDes, fullDes, startDay, endDay );
+        Product p = new Product(startingPrice , type , stepPrice, highestPaidPrice ,nowPrice, autoExtend ,userID , sell ,countAuction,userSellID,name , tinyDes, fullDes, startDay, endDay );
         ProductModel.add(p);
         Part partMain = request.getPart("ImageMain");
         Part partSub1 = request.getPart("ImageSub1");
